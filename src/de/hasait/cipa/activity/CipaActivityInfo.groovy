@@ -15,6 +15,7 @@
  */
 
 package de.hasait.cipa.activity
+import java.time.ZonedDateTime
 
 interface CipaActivityInfo {
 
@@ -22,11 +23,11 @@ interface CipaActivityInfo {
 
 	Set<Map.Entry<CipaActivityInfo, Boolean>> getDependencies()
 
-	Date getCreationDate()
+	ZonedDateTime getCreationDate()
 
-	Date getStartedDate()
+	ZonedDateTime getStartedDate()
 
-	Date getFinishedDate()
+	ZonedDateTime getFinishedDate()
 
 	boolean isRunning()
 

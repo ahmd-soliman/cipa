@@ -26,6 +26,8 @@ import static de.hasait.cipa.PScript.STASH_INCLUDES_DEFAULT
 import static de.hasait.cipa.PScript.STASH_USE_DEFAULT_EXCLUDES_DEFAULT
 
 import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
 import com.cloudbees.groovy.cps.NonCPS
@@ -49,10 +51,10 @@ import hudson.tasks.junit.TestResultAction
 
 class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, Serializable {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat('yyyy-MM-dd\' \'HH:mm:ss\' \'Z')
+	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern('yyyy-MM-dd\' \'HH:mm:ss\' \'Z')
 
 	@NonCPS
-	private static String format(Date date) {
+	private static String format(ZonedDateTime date) {
 		return date ? DATE_FORMAT.format(date) : ''
 	}
 
@@ -72,10 +74,10 @@ class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, S
 
 	private final Map<CipaActivityWrapper, Boolean> dependsOn = new LinkedHashMap<>()
 
-	private final Date creationDate
+	private final ZonedDateTime creationDate
 	private Throwable prepareThrowable
-	private Date startedDate
-	private Date finishedDate
+	private ZonedDateTime  startedDate
+	private ZonedDateTime finishedDate
 	private Throwable runThrowable
 	private List<CipaActivityWrapper> failedDependencies
 	private Throwable aroundThrowable
@@ -92,7 +94,7 @@ class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, S
 		this.activity = activity
 		this.aroundActivities = aroundActivities
 
-		creationDate = new Date()
+		creationDate = ZonedDateTime.now()
 	}
 
 	@NonCPS
@@ -111,19 +113,19 @@ class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, S
 
 	@Override
 	@NonCPS
-	Date getCreationDate() {
+	ZonedDateTime getCreationDate() {
 		return creationDate
 	}
 
 	@Override
 	@NonCPS
-	Date getStartedDate() {
+	ZonedDateTime getStartedDate() {
 		return startedDate
 	}
 
 	@Override
 	@NonCPS
-	Date getFinishedDate() {
+	ZonedDateTime getFinishedDate() {
 		return finishedDate
 	}
 
@@ -274,13 +276,13 @@ class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, S
 		}
 
 		try {
-			startedDate = new Date()
+			startedDate = ZonedDateTime.now()
 			runAroundActivity(0)
 		} catch (Throwable throwable) {
 			runThrowable = throwable
 			script.echoStacktrace('runActivity', throwable)
 		} finally {
-			finishedDate = new Date()
+			finishedDate = ZonedDateTime.now()
 		}
 
 		if (runThrowable) {
