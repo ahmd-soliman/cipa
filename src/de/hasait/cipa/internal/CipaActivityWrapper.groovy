@@ -25,7 +25,6 @@ import static de.hasait.cipa.PScript.STASH_EXCLUDES_DEFAULT
 import static de.hasait.cipa.PScript.STASH_INCLUDES_DEFAULT
 import static de.hasait.cipa.PScript.STASH_USE_DEFAULT_EXCLUDES_DEFAULT
 
-import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
@@ -113,20 +112,20 @@ class CipaActivityWrapper implements CipaActivityInfo, CipaActivityRunContext, S
 
 	@Override
 	@NonCPS
-	ZonedDateTime getCreationDate() {
-		return creationDate
+	Date getCreationDate() {
+		return Date.from(creationDate.toInstant())
 	}
 
 	@Override
 	@NonCPS
-	ZonedDateTime getStartedDate() {
-		return startedDate
+	Date getStartedDate() {
+		return Date.from(startedDate.toInstant())
 	}
 
 	@Override
 	@NonCPS
-	ZonedDateTime getFinishedDate() {
-		return finishedDate
+	Date getFinishedDate() {
+		return Date.from(finishedDate.toInstant())
 	}
 
 	@Override

@@ -23,11 +23,11 @@ interface CipaActivityInfo {
 
 	Set<Map.Entry<CipaActivityInfo, Boolean>> getDependencies()
 
-	ZonedDateTime getCreationDate()
+	Date getCreationDate()
 
-	ZonedDateTime getStartedDate()
+	Date getStartedDate()
 
-	ZonedDateTime getFinishedDate()
+	Date getFinishedDate()
 
 	boolean isRunning()
 
